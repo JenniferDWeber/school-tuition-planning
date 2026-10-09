@@ -72,6 +72,11 @@
   #proj{min-width:34rem; background:var(--paper)} #proj td:first-child{white-space:nowrap}
   #proj td.gap-neg{color:#a33a1d} #proj td.gap-pos{color:#1f7a3a}
   @media (prefers-color-scheme: dark){ #proj td.gap-neg{color:#f19a7e} #proj td.gap-pos{color:#7fd39a} }
+  .suggest{background:var(--paper); border:2px solid var(--in); border-radius:6px; padding:1rem 1.1rem; margin:0 0 1.25rem}
+  .suggest .label{display:block; font-size:.85rem; color:var(--ink-2)}
+  .suggest b{display:block; font-size:2rem; line-height:1.15; font-variant-numeric:tabular-nums}
+  .suggest p{margin:.4rem 0 .75rem; font-size:.92rem}
+  .suggest button{font:inherit; font-size:.9rem; padding:.45rem .9rem; border:0; border-radius:999px; background:var(--in); color:var(--paper); cursor:pointer}
   .slider{margin:1rem 0 .5rem}
   .slider input{width:100%}
   .slider output{font-size:1.6rem; font-weight:600; font-variant-numeric:tabular-nums}
@@ -169,6 +174,8 @@
         <div><label for="d3">Third-child discount (%)</label><input id="d3" type="number" min="0" max="100" step="5" value="20" inputmode="numeric"></div>
         <div><label for="el">Students who leave for each $1,000 tuition increase (%)</label><input id="el" type="number" min="0" max="50" step="0.5" value="2" inputmode="decimal">
           <div class="hint">Enter 0 to ignore. Only counts families whose own bill goes up, so a scholarship that covers the increase keeps them.</div></div>
+        <div><label for="maxloss">Most students you can afford to lose next year (%)</label><input id="maxloss" type="number" min="0" max="50" step="0.5" value="3" inputmode="decimal">
+          <div class="hint">The suggested tuition stays under this</div></div>
       </div>
     </fieldset>
 
@@ -215,6 +222,12 @@
           <div class="hint">Families who could now afford to enroll. Applies only to students in opted-in states.</div></div>
       </div>
     </fieldset>
+
+    <div class="suggest" id="suggestBox" aria-live="polite">
+      <div><span class="label">Suggested tuition for next year</span><b id="suggestVal"></b></div>
+      <p id="suggestWhy"></p>
+      <button type="button" id="useSuggest">Use this tuition</button>
+    </div>
 
     <div class="slider">
       <label for="tp">Proposed tuition for next year</label><br>
@@ -320,7 +333,7 @@ function inputs() {
   const x = {
     state, whatIf,
     n: Math.max(1, val("n")), c: val("c"), t: val("t"), s: val("s"), f: val("f"),
-    s2: pct("s2"), d2: pct("d2"), s3: pct("s3"), d3: pct("d3"), el: val("el") / 100,
+    s2: pct("s2"), d2: pct("d2"), s3: pct("s3"), d3: pct("d3"), el: val("el") / 100, maxloss: pct("maxloss"),
     // Share of students who can get a federal SGO scholarship at all.
     r: whatIf ? 1 : pct("r"),
     e: pct("e"), p: pct("p"), a: val("a"), aidcut: pct("aidcut"),
@@ -388,6 +401,43 @@ function presets(x) {
   return { now: x.t, harmless: x.t + lift, cost: x.c, balance: hi };
 }
 
+// The highest tuition that keeps next year's losses within the school's limit.
+function lossCap(x) {
+  let lo = x.t, hi = Math.max(x.c, x.t) * 4;
+  const lost = tp => 1 - project(x, tp)[0].n / x.n;
+  if (lost(hi) <= x.maxloss) return hi;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (lost(mid) <= x.maxloss) lo = mid; else hi = mid;
+  }
+  return lo;
+}
+
+// One suggested tuition: balance next year's budget, but never by losing more
+// students than the school said it can afford.
+function suggest(x) {
+  // Round up to balance, down to stay under the loss limit.
+  const up = v => Math.ceil(v / 50) * 50, down = v => Math.floor(v / 50) * 50;
+  const balance = presets(x).balance;
+  if (balance <= x.t) return { tp: x.t, why:
+    `Your budget balances at today's tuition, so there's no need to raise it next year. ` +
+    `Check the five-year outlook below: rising costs may still call for small yearly increases.` };
+  const cap = lossCap(x);
+  if (up(balance) <= cap) {
+    const tp = up(balance);
+    const covered = x.r > 0 && tp <= x.t + x.a;
+    return { tp, why:
+      `This balances next year's budget and keeps the number of students who leave under ${Math.round(x.maxloss * 1000) / 10}%. ` +
+      (covered ? `The increase is no more than the average SGO scholarship, so scholarship families pay no more than today.`
+               : `Families without outside aid see the full increase, so consider school-funded aid for them.`) };
+  }
+  const tp = down(cap);
+  const gap = -project(x, tp)[0].gap;
+  return { tp, why:
+    `Balancing the budget would take ${usd(up(balance))}, but that would lose more than ${Math.round(x.maxloss * 1000) / 10}% of your students. ` +
+    `At this price, about ${usd(gap)} is still missing next year. Plan to close it with fundraising or parish support, or spread tuition increases over several years.` };
+}
+
 function render() {
   const x = inputs();
   const tp = val("tp");
@@ -405,6 +455,11 @@ function render() {
   $("whatifWrap").hidden = st.opted_in;
   $("whatifText").textContent = `Show what happens if ${st.state} opts in`;
   $("r").disabled = x.whatIf;
+
+  const sug = suggest(x);
+  $("suggestVal").textContent = usd(sug.tp);
+  $("suggestWhy").textContent = (x.whatIf ? `Assuming ${x.state.state} opts in. ` : "") + sug.why;
+  $("useSuggest").hidden = Math.abs(sug.tp - tp) < 1;
 
   const proj = project(x, tp);
   const next = proj[0];
@@ -482,9 +537,10 @@ $("st").addEventListener("change", () => {
   $("whatif").checked = false;
   syncSlider(); render();
 });
-["st","n","c","t","s","f","s2","d2","s3","d3","el","r","e","p","a","aidcut","q","o","ci","g","fx","ti","sg","boost","whatif"]
+["st","n","c","t","s","f","s2","d2","s3","d3","el","maxloss","r","e","p","a","aidcut","q","o","ci","g","fx","ti","sg","boost","whatif"]
   .forEach(id => $(id).addEventListener("input", () => { syncSlider(); render(); }));
 $("tp").addEventListener("input", render);
+$("useSuggest").addEventListener("click", () => { $("tp").value = suggest(inputs()).tp; render(); });
 document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
   const v = presets(inputs())[b.dataset.preset];
   $("tp").value = Math.max(0, Math.round(v / 50) * 50);
@@ -499,7 +555,7 @@ $("more").addEventListener("click", () => {
 });
 
 syncSlider();
-$("tp").value = inputs().t + inputs().a;
+$("tp").value = suggest(inputs()).tp;
 render();
 </script>
 </body>
