@@ -72,6 +72,12 @@
   #proj{min-width:34rem; background:var(--paper)} #proj td:first-child{white-space:nowrap}
   #proj td.gap-neg{color:#a33a1d} #proj td.gap-pos{color:#1f7a3a}
   @media (prefers-color-scheme: dark){ #proj td.gap-neg{color:#f19a7e} #proj td.gap-pos{color:#7fd39a} }
+  .howto{border-left:4px solid var(--in); padding:.25rem 0 .25rem 1rem; margin:1rem 0 1.5rem}
+  .howto h3{margin:.25rem 0 .5rem}
+  .howto ol{margin:0; padding-left:1.25rem} .howto li{margin:.45rem 0; font-size:.95rem}
+  .howto .note{margin:.75rem 0 0}
+  .fields input.missing{border-color:#c0392b; box-shadow:0 0 0 1px #c0392b}
+  .waiting .results,.waiting .slider,.waiting .presets,.waiting #proj,.waiting #projNote,.waiting #explain{opacity:.25; pointer-events:none}
   .suggest{background:var(--paper); border:2px solid var(--in); border-radius:6px; padding:1rem 1.1rem; margin:0 0 1.25rem}
   .suggest .label{display:block; font-size:.85rem; color:var(--ink-2)}
   .suggest b{display:block; font-size:2rem; line-height:1.15; font-variant-numeric:tabular-nums}
@@ -145,7 +151,18 @@
   <p class="note">Treasury's rules were proposed on October 1, 2026, and are open for comment, so details may change. A school should confirm specifics with its diocese and tax adviser.</p>
 
   <h2>Tuition planner</h2>
-  <p>Enter your school's numbers to see how scholarships could let tuition move closer to what it actually costs to educate a student, without raising what scholarship families pay, and how the picture changes over five years as costs rise and enrollment shifts. The numbers filled in are an example, not data.</p>
+  <p>Use this to test next year's tuition before you announce it: what it does to families, to your budget, and to your enrollment, with federal scholarships in the picture.</p>
+
+  <div class="howto sans">
+    <h3>How to use it</h3>
+    <ol>
+      <li><strong>Replace the example numbers with your own.</strong> The boxes start with a sample school of 250 students. Change "Your school" first. The other sections have sensible starting values you can adjust later.</li>
+      <li><strong>Read the suggested tuition.</strong> It's the price that balances next year's budget without losing more students than you said you can afford. If no price does both, it tells you how much is still missing.</li>
+      <li><strong>Try other prices with the slider.</strong> The cards underneath show what a family with 1, 2 or 3 children would pay, how your budget comes out, and how much scholarship money is involved.</li>
+      <li><strong>Check the five-year outlook.</strong> A budget that balances next year can still slip into a gap as costs rise and enrollment falls. The table shows when.</li>
+    </ol>
+    <p class="note">Nothing you type is saved or sent anywhere. It stays in your browser. All results are estimates to plan with, not a guarantee.</p>
+  </div>
 
   <div class="calc sans" id="calc">
     <fieldset>
@@ -438,7 +455,29 @@ function suggest(x) {
     `At this price, about ${usd(gap)} is still missing next year. Plan to close it with fundraising or parish support, or spread tuition increases over several years.` };
 }
 
+// Boxes the results can't be worked out without.
+const REQUIRED = { n: "students enrolled", c: "cost to educate one student", t: "current tuition" };
+
+function missing() {
+  const gaps = Object.keys(REQUIRED).filter(id => {
+    const v = $(id).value.trim();
+    const bad = v === "" || !(parseFloat(v) > 0);
+    $(id).classList.toggle("missing", bad);
+    $(id).setAttribute("aria-invalid", bad);
+    return bad;
+  });
+  return gaps.map(id => REQUIRED[id]);
+}
+
 function render() {
+  const gaps = missing();
+  $("calc").classList.toggle("waiting", gaps.length > 0);
+  if (gaps.length) {
+    $("suggestVal").textContent = "–";
+    $("suggestWhy").textContent = `Enter your ${gaps.join(" and ")} to see results. Each must be more than zero.`;
+    $("useSuggest").hidden = true;
+    return;
+  }
   const x = inputs();
   const tp = val("tp");
   $("tpOut").textContent = usd(tp);
@@ -525,6 +564,7 @@ function render() {
 }
 
 function syncSlider() {
+  if (missing().length) return;
   const x = inputs();
   const top = Math.max(x.c, x.t + x.a, presets(x).balance, x.t) * 1.25;
   $("tp").max = Math.ceil(top / 500) * 500;
@@ -537,10 +577,13 @@ $("st").addEventListener("change", () => {
   $("whatif").checked = false;
   syncSlider(); render();
 });
+["n","c","t"].forEach(id => $(id).addEventListener("change", () => {
+  if (!missing().length) { syncSlider(); $("tp").value = suggest(inputs()).tp; render(); }
+}));
 ["st","n","c","t","s","f","s2","d2","s3","d3","el","maxloss","r","e","p","a","aidcut","q","o","ci","g","fx","ti","sg","boost","whatif"]
   .forEach(id => $(id).addEventListener("input", () => { syncSlider(); render(); }));
 $("tp").addEventListener("input", render);
-$("useSuggest").addEventListener("click", () => { $("tp").value = suggest(inputs()).tp; render(); });
+$("useSuggest").addEventListener("click", () => { if (!missing().length) $("tp").value = suggest(inputs()).tp; render(); });
 document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
   const v = presets(inputs())[b.dataset.preset];
   $("tp").value = Math.max(0, Math.round(v / 50) * 50);
@@ -555,7 +598,7 @@ $("more").addEventListener("click", () => {
 });
 
 syncSlider();
-$("tp").value = suggest(inputs()).tp;
+if (!missing().length) $("tp").value = suggest(inputs()).tp;
 render();
 </script>
 </body>
