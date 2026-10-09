@@ -84,6 +84,7 @@
   .suggest p{margin:.4rem 0 .75rem; font-size:.92rem}
   .suggest button{font:inherit; font-size:.9rem; padding:.45rem .9rem; border:0; border-radius:999px; background:var(--in); color:var(--paper); cursor:pointer}
   .slider{margin:1rem 0 .5rem}
+  .slider .note{display:block; margin:.1rem 0 .3rem}
   .slider input{width:100%}
   .slider output{font-size:1.6rem; font-weight:600; font-variant-numeric:tabular-nums}
   .presets{display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 1rem}
@@ -158,7 +159,7 @@
     <ol>
       <li><strong>Replace the example numbers with your own.</strong> The boxes start with a sample school of 250 students. Change "Your school" first. The other sections have sensible starting values you can adjust later.</li>
       <li><strong>Read the suggested tuition.</strong> It's the price that balances next year's budget without losing more students than you said you can afford. If no price does both, it tells you how much is still missing.</li>
-      <li><strong>Try other prices with the slider.</strong> The cards underneath show what a family with 1, 2 or 3 children would pay, how your budget comes out, and how much scholarship money is involved.</li>
+      <li><strong>Review the proposed tuition.</strong> It updates automatically to the suggested tuition as you change your inputs. You may also set it manually with the slider to test other prices. The cards underneath show what a family with 1, 2 or 3 children would pay, how your budget comes out, and how much scholarship money is involved.</li>
       <li><strong>Check the five-year outlook.</strong> A budget that balances next year can still slip into a gap as costs rise and enrollment falls. The table shows when.</li>
     </ol>
     <p class="note">Nothing you type is saved or sent anywhere. It stays in your browser. All results are estimates to plan with, not a guarantee.</p>
@@ -243,12 +244,13 @@
     <div class="suggest" id="suggestBox" aria-live="polite">
       <div><span class="label">Suggested tuition for next year</span><b id="suggestVal"></b></div>
       <p id="suggestWhy"></p>
-      <button type="button" id="useSuggest">Use this tuition</button>
+      <button type="button" id="useSuggest">Return to suggested tuition</button>
     </div>
 
     <div class="slider">
       <label for="tp">Proposed tuition for next year</label><br>
       <output id="tpOut" for="tp"></output>
+      <span class="note" id="followNote"></span>
       <input id="tp" type="range" min="0" max="20000" step="50">
     </div>
     <div class="presets" aria-label="Suggested tuition levels">
@@ -469,6 +471,9 @@ function missing() {
   return gaps.map(id => REQUIRED[id]);
 }
 
+// The slider tracks the suggestion until someone picks a price themselves.
+let following = true;
+
 function render() {
   const gaps = missing();
   $("calc").classList.toggle("waiting", gaps.length > 0);
@@ -479,6 +484,8 @@ function render() {
     return;
   }
   const x = inputs();
+  const sug = suggest(x);
+  if (following) $("tp").value = sug.tp;
   const tp = val("tp");
   $("tpOut").textContent = usd(tp);
 
@@ -495,10 +502,12 @@ function render() {
   $("whatifText").textContent = `Show what happens if ${st.state} opts in`;
   $("r").disabled = x.whatIf;
 
-  const sug = suggest(x);
   $("suggestVal").textContent = usd(sug.tp);
   $("suggestWhy").textContent = (x.whatIf ? `Assuming ${x.state.state} opts in. ` : "") + sug.why;
-  $("useSuggest").hidden = Math.abs(sug.tp - tp) < 1;
+  $("useSuggest").hidden = following;
+  $("followNote").textContent = following
+    ? "Updates automatically to the suggested tuition as your inputs change. You may also set it manually with the slider or the options below."
+    : "Set manually. Select \u201cReturn to suggested tuition\u201d to resume automatic updates.";
 
   const proj = project(x, tp);
   const next = proj[0];
@@ -577,14 +586,12 @@ $("st").addEventListener("change", () => {
   $("whatif").checked = false;
   syncSlider(); render();
 });
-["n","c","t"].forEach(id => $(id).addEventListener("change", () => {
-  if (!missing().length) { syncSlider(); $("tp").value = suggest(inputs()).tp; render(); }
-}));
 ["st","n","c","t","s","f","s2","d2","s3","d3","el","maxloss","r","e","p","a","aidcut","q","o","ci","g","fx","ti","sg","boost","whatif"]
   .forEach(id => $(id).addEventListener("input", () => { syncSlider(); render(); }));
-$("tp").addEventListener("input", render);
-$("useSuggest").addEventListener("click", () => { if (!missing().length) $("tp").value = suggest(inputs()).tp; render(); });
+$("tp").addEventListener("input", () => { following = false; render(); });
+$("useSuggest").addEventListener("click", () => { following = true; render(); });
 document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
+  following = false;
   const v = presets(inputs())[b.dataset.preset];
   $("tp").value = Math.max(0, Math.round(v / 50) * 50);
   render();
@@ -598,7 +605,6 @@ $("more").addEventListener("click", () => {
 });
 
 syncSlider();
-if (!missing().length) $("tp").value = suggest(inputs()).tp;
 render();
 </script>
 </body>
