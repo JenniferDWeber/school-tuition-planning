@@ -4,59 +4,113 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Project title goes here</title>
-<meta name="description" content="One sentence, under 160 characters, for search results and link previews.">
-<link rel="canonical" href="https://example.manhattan.institute/">
+<title>Catholic School Tuition Planner: Federal Scholarship Tax Credit</title>
+<meta name="description" content="See which states have opted in to the federal scholarship tax credit, and model what SGO scholarships could mean for a Catholic school's tuition.">
+<link rel="canonical" href="https://jenniferdweber.github.io/school-tuition-planning/">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://example.manhattan.institute/">
-<meta property="og:title" content="The one sentence someone should remember">
-<meta property="og:description" content="One sentence, under 160 characters, for search results and link previews.">
-<meta property="og:image" content="https://example.manhattan.institute/preview.png">
+<meta property="og:url" content="https://jenniferdweber.github.io/school-tuition-planning/">
+<meta property="og:title" content="Federal scholarship tax credits start in 2027. Plan your tuition around them.">
+<meta property="og:description" content="See which states have opted in to the federal scholarship tax credit, and model what SGO scholarships could mean for a Catholic school's tuition.">
+<meta property="og:image" content="https://jenniferdweber.github.io/school-tuition-planning/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <style>
   :root{
     --accent: #14366b;
     --paper:#fff; --ink:#111; --ink-2:#56544e; --rule:#e2e0d9; --bar:#e8e6df;
+    --panel:#f6f5f1; --in:var(--accent); --out:#a9a59b; --warn-bg:#fdf3dc; --warn-ink:#6b4a00;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark){
-    :root{ --paper:#12121a; --ink:#f0eee8; --ink-2:#a8a49a; --rule:#2e2d35; --bar:#24242e; }
+    :root{ --paper:#12121a; --ink:#f0eee8; --ink-2:#a8a49a; --rule:#2e2d35; --bar:#24242e;
+           --panel:#1b1b24; --in:#7ea6e6; --out:#5c5a63; --warn-bg:#3a2f14; --warn-ink:#f3d58a; }
   }
   *{box-sizing:border-box}
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font: 17px/1.55 ui-serif, Georgia, "Times New Roman", serif;
   }
-  .wrap{max-width:52rem; margin:0 auto; padding:3rem 1.25rem 5rem}
+  .wrap{max-width:52rem; margin:0 auto; padding:3rem 1rem 5rem}
   header{border-bottom:2px solid var(--ink); padding-bottom:1rem; margin-bottom:2rem}
   h1{font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.1; margin:0 0 .5rem}
-  .standfirst{margin:0; color:var(--ink-2); max-width:34rem}
-  h2{font-size:1.2rem; margin:2.5rem 0 .75rem}
+  .standfirst{margin:0; color:var(--ink-2); max-width:36rem}
+  h2{font-size:1.25rem; margin:3rem 0 .75rem}
+  h3{font-size:1rem; margin:1.5rem 0 .5rem}
   a{color:var(--accent)}
   @media (prefers-color-scheme: dark){ a{color:#9fc0f2} }
+  .sans{font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif}
+  .note{font-size:.88rem; color:var(--ink-2)}
 
-  .chart{margin:1.5rem 0; display:grid; gap:.4rem}
-  .row{display:grid; grid-template-columns:minmax(6rem,10rem) 1fr auto; gap:.6rem; align-items:center}
-  .row .name{font-size:.9rem; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .track{background:var(--bar); height:1.4rem; position:relative}
-  .fill{background:var(--accent); height:100%}
-  .num{font-variant-numeric:tabular-nums; font-size:.9rem}
+  /* headline numbers */
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); margin:1.5rem 0}
+  @media (min-width:44rem){ .stats{grid-template-columns:repeat(4,1fr)} }
+  .stat{background:var(--paper); padding:1rem}
+  .stat b{display:block; font-size:1.9rem; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:.85rem; color:var(--ink-2)}
+
+  ul.rules{padding-left:1.2rem} ul.rules li{margin:.35rem 0}
+
+  /* calculator */
+  .calc{background:var(--panel); border:1px solid var(--rule); padding:1.25rem; margin-top:1rem}
+  .fields{display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); gap:.9rem 1.25rem}
+  .fields label{display:block; font-size:.85rem; color:var(--ink-2); margin-bottom:.25rem}
+  .fields input,.fields select{width:100%; font:inherit; font-size:1rem; padding:.45rem .55rem; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:4px}
+  .fields .hint{font-size:.78rem; color:var(--ink-2); margin-top:.2rem}
+  fieldset{border:0; padding:0; margin:0 0 1.25rem}
+  legend{font-weight:600; padding:0; margin-bottom:.6rem}
+  .banner{padding:.75rem 1rem; border-radius:4px; margin:0 0 1.25rem; font-size:.95rem}
+  .banner.in{background:color-mix(in srgb, var(--in) 14%, var(--paper)); border-left:4px solid var(--in)}
+  .banner.out{background:var(--warn-bg); color:var(--warn-ink); border-left:4px solid #c08a00}
+  .whatif{display:block; margin:-.5rem 0 1.25rem; font-size:.95rem; cursor:pointer}
+  .whatif input{width:1.05rem; height:1.05rem; vertical-align:-2px; margin-right:.35rem}
+  #proj{min-width:34rem; background:var(--paper)} #proj td:first-child{white-space:nowrap}
+  #proj td.gap-neg{color:#a33a1d} #proj td.gap-pos{color:#1f7a3a}
+  @media (prefers-color-scheme: dark){ #proj td.gap-neg{color:#f19a7e} #proj td.gap-pos{color:#7fd39a} }
+  .slider{margin:1rem 0 .5rem}
+  .slider input{width:100%}
+  .slider output{font-size:1.6rem; font-weight:600; font-variant-numeric:tabular-nums}
+  .presets{display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 1rem}
+  .presets button{font:inherit; font-size:.85rem; padding:.35rem .7rem; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:999px; cursor:pointer}
+  .presets button:hover{border-color:var(--ink-2)}
+  .results{display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); gap:1rem; margin-top:1rem}
+  .card{background:var(--paper); border:1px solid var(--rule); padding:1rem}
+  .card h4{margin:0 0 .5rem; font-size:.95rem}
+  .card dl{margin:0; display:grid; grid-template-columns:1fr auto; gap:.3rem .75rem; font-size:.9rem}
+  .card dt{color:var(--ink-2)} .card dd{margin:0; text-align:right; font-variant-numeric:tabular-nums}
+  table.mini{min-width:0; font-size:.88rem} table.mini th,table.mini td{padding:.3rem .35rem}
+  table.mini td{text-align:right; font-variant-numeric:tabular-nums} table.mini td:first-child{text-align:left; color:var(--ink-2); white-space:nowrap}
+  .card .note{margin:.5rem 0 0; font-size:.8rem}
+  .up{color:#a33a1d} .down{color:#1f7a3a}
+  @media (prefers-color-scheme: dark){ .up{color:#f19a7e} .down{color:#7fd39a} }
+
+  /* chart */
+  .key{display:flex; gap:1.25rem; font-size:.85rem; color:var(--ink-2); margin:.5rem 0}
+  .key i{display:inline-block; width:.8rem; height:.8rem; border-radius:2px; margin-right:.35rem; vertical-align:-1px}
+  .chart{margin:1rem 0; display:grid; gap:2px}
+  .row{display:grid; grid-template-columns:minmax(6.5rem,9.5rem) 1fr 4.5rem; gap:.6rem; align-items:center}
+  .row .name{font-size:.88rem; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .track{height:1.15rem; position:relative}
+  .fill{display:block; height:100%; border-radius:0 4px 4px 0}
+  .fill.in{background:var(--in)} .fill.out{background:var(--out)}
+  .num{font-variant-numeric:tabular-nums; font-size:.85rem; text-align:right}
+  .row:hover .name{color:var(--ink)}
+  .more{font:inherit; font-size:.9rem; background:none; border:0; color:var(--accent); cursor:pointer; padding:.25rem 0; text-decoration:underline}
+  @media (prefers-color-scheme: dark){ .more{color:#9fc0f2} }
 
   .scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
   table{border-collapse:collapse; width:100%; font-size:.92rem; min-width:30rem}
   th,td{text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--rule)}
   th{font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2)}
-  td:not(:first-child){font-variant-numeric:tabular-nums}
+  td.n,th.n{text-align:right; font-variant-numeric:tabular-nums}
 
   footer{margin-top:3.5rem; border-top:1px solid var(--rule); padding-top:1rem; font-size:.88rem; color:var(--ink-2)}
-  footer p{margin:.4rem 0; max-width:34rem}
+  footer p{margin:.4rem 0; max-width:36rem}
   .dl{display:inline-block; margin-top:.5rem; font-size:.9rem}
 </style>
 </head>
@@ -64,114 +118,789 @@
 <div class="wrap">
 
   <header>
-    <h1>The one sentence someone should remember</h1>
-    <p class="standfirst">One sentence, under 160 characters, for search results and link previews.</p>
+    <h1>Federal scholarship tax credits start in 2027. Plan your tuition around them.</h1>
+    <p class="standfirst">See which states have opted in to the federal scholarship tax credit, and model what SGO scholarships could mean for a Catholic school's tuition.</p>
   </header>
 
-  <h2>Value by label</h2>
-  <div class="chart">
+  <div class="stats sans">
+    <div class="stat"><b>30</b><span>states have opted in for 2027 (IRS, as of September 14, 2026)</span></div>
+    <div class="stat"><b>44%</b><span>of Catholic school students attend school in those states</span></div>
+    <div class="stat"><b>$1,700</b><span>dollar-for-dollar credit per taxpayer ($3,400 for a married couple)</span></div>
+    <div class="stat"><b>300%</b><span>of area median income: the family income limit for a scholarship</span></div>
+  </div>
+
+  <h2>What changes in 2027</h2>
+  <ul class="rules">
+    <li><strong>Donors get the money back.</strong> From January 1, 2027, a person who gives to a scholarship granting organization (SGO) can take up to $1,700 off their federal taxes, dollar for dollar. Any state tax credit for the same gift is subtracted first.</li>
+    <li><strong>Only in states that opt in.</strong> A donor can live anywhere, but the SGO must be located in, and give scholarships to students living in, a state that has opted in and sent the IRS its list of SGOs by February 15, 2027.</li>
+    <li><strong>Many families qualify.</strong> Students qualify if their household income is no more than 300% of the area median, adjusted for family size. Scholarships can pay private school tuition and other education costs.</li>
+    <li><strong>Schools can't steer the money.</strong> SGOs may not earmark donations for a particular student. Families apply to the SGO, and the SGO decides on awards. The school can encourage giving, but not direct it.</li>
+    <li><strong>Where the family lives counts, not where the school is.</strong> A school near a state line may enroll students from a state that has not opted in. Those students can't receive these scholarships.</li>
+  </ul>
+  <p class="note">Treasury's rules were proposed on October 1, 2026, and are open for comment, so details may change. A school should confirm specifics with its diocese and tax adviser.</p>
+
+  <h2>Tuition planner</h2>
+  <p>Enter your school's numbers to see how scholarships could let tuition move closer to what it actually costs to educate a student, without raising what scholarship families pay, and how the picture changes over five years as costs rise and enrollment shifts. The numbers filled in are an example, not data.</p>
+
+  <div class="calc sans" id="calc">
+    <fieldset>
+      <legend>Your school</legend>
+      <div class="fields">
+        <div><label for="st">Your school's state</label>
+          <select id="st"><option value="Alabama">Alabama (opted in)</option><option value="Alaska">Alaska (opted in)</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas (opted in)</option><option value="California">California</option><option value="Colorado">Colorado (opted in)</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="District of Columbia">District of Columbia</option><option value="Florida">Florida (opted in)</option><option value="Georgia">Georgia (opted in)</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho (opted in)</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana (opted in)</option><option value="Iowa">Iowa (opted in)</option><option value="Kansas">Kansas (opted in)</option><option value="Kentucky">Kentucky (opted in)</option><option value="Louisiana">Louisiana (opted in)</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi (opted in)</option><option value="Missouri">Missouri (opted in)</option><option value="Montana">Montana (opted in)</option><option value="Nebraska">Nebraska (opted in)</option><option value="Nevada">Nevada (opted in)</option><option value="New Hampshire">New Hampshire (opted in)</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina (opted in)</option><option value="North Dakota">North Dakota (opted in)</option><option value="Ohio" selected>Ohio (opted in)</option><option value="Oklahoma">Oklahoma (opted in)</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina (opted in)</option><option value="South Dakota">South Dakota (opted in)</option><option value="Tennessee">Tennessee (opted in)</option><option value="Texas">Texas (opted in)</option><option value="Utah">Utah (opted in)</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia (opted in)</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia (opted in)</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming (opted in)</option></select></div>
+        <div><label for="n">Students enrolled</label><input id="n" type="number" min="1" step="1" value="250" inputmode="numeric"></div>
+        <div><label for="c">Cost to educate one student ($/year)</label><input id="c" type="number" min="0" step="100" value="9500" inputmode="numeric">
+          <div class="hint">Total operating cost ÷ enrollment</div></div>
+        <div><label for="t">Current tuition ($/year)</label><input id="t" type="number" min="0" step="100" value="6500" inputmode="numeric">
+          <div class="hint">The full rate, before any discounts</div></div>
+        <div><label for="s">Parish, diocesan and fundraising support ($/year)</label><input id="s" type="number" min="0" step="1000" value="500000" inputmode="numeric"></div>
+        <div><label for="f">Tuition aid the school pays for ($/year)</label><input id="f" type="number" min="0" step="1000" value="150000" inputmode="numeric">
+          <div class="hint">Discounts and grants the school covers itself</div></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Families</legend>
+      <div class="fields">
+        <div><label for="s2">Students who are a second child (%)</label><input id="s2" type="number" min="0" max="100" step="1" value="25" inputmode="numeric">
+          <div class="hint">Share of enrollment that gets the second-child discount</div></div>
+        <div><label for="d2">Second-child discount (%)</label><input id="d2" type="number" min="0" max="100" step="5" value="10" inputmode="numeric"></div>
+        <div><label for="s3">Students who are a third or later child (%)</label><input id="s3" type="number" min="0" max="100" step="1" value="10" inputmode="numeric"></div>
+        <div><label for="d3">Third-child discount (%)</label><input id="d3" type="number" min="0" max="100" step="5" value="20" inputmode="numeric"></div>
+        <div><label for="el">Students who leave for each $1,000 tuition increase (%)</label><input id="el" type="number" min="0" max="50" step="0.5" value="2" inputmode="decimal">
+          <div class="hint">Enter 0 to ignore. Only counts families whose own bill goes up, so a scholarship that covers the increase keeps them.</div></div>
+      </div>
+    </fieldset>
+
+    <div id="banner" class="banner" role="status"></div>
+    <label class="whatif" id="whatifWrap" hidden><input type="checkbox" id="whatif"> <span id="whatifText"></span></label>
+
+    <fieldset>
+      <legend>Federal SGO scholarships</legend>
+      <div class="fields">
+        <div><label for="r">Students who live in an opted-in state (%)</label><input id="r" type="number" min="0" max="100" step="1" value="100" inputmode="numeric">
+          <div class="hint">Where the family lives decides eligibility, not where the school is. Count students from opted-in neighboring states.</div></div>
+        <div><label for="e">Families under the income limit (%)</label><input id="e" type="number" min="0" max="100" step="1" value="85" inputmode="numeric">
+          <div class="hint">Treasury estimates about 96% of children in opted-in states qualify</div></div>
+        <div><label for="p">Of those, share who receive an SGO scholarship (%)</label><input id="p" type="number" min="0" max="100" step="1" value="50" inputmode="numeric">
+          <div class="hint">Depends on how much donors give to SGOs in your state</div></div>
+        <div><label for="a">Average SGO scholarship ($/year)</label><input id="a" type="number" min="0" step="100" value="2500" inputmode="numeric"></div>
+        <div><label for="aidcut">Share of school aid replaced by SGO aid (%)</label><input id="aidcut" type="number" min="0" max="100" step="5" value="0" inputmode="numeric">
+          <div class="hint">If SGO scholarships take over some families the school now helps</div></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Other outside aid</legend>
+      <div class="fields">
+        <div><label for="q">Students with other outside aid (%)</label><input id="q" type="number" min="0" max="100" step="1" value="0" inputmode="numeric">
+          <div class="hint">A state voucher, education savings account, state tax-credit scholarship, or diocesan tuition fund</div></div>
+        <div><label for="o">Average other aid per student ($/year)</label><input id="o" type="number" min="0" step="100" value="0" inputmode="numeric">
+          <div class="hint">Especially useful if your state hasn't opted in</div></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Looking ahead: the next five years</legend>
+      <div class="fields">
+        <div><label for="ci">Costs rise each year (%)</label><input id="ci" type="number" min="-20" max="30" step="0.5" value="4" inputmode="decimal">
+          <div class="hint">Salaries, benefits, insurance and utilities</div></div>
+        <div><label for="g">Enrollment change each year (%)</label><input id="g" type="number" min="-30" max="30" step="0.5" value="-2" inputmode="decimal">
+          <div class="hint">Negative for decline</div></div>
+        <div><label for="fx">Share of costs that are fixed (%)</label><input id="fx" type="number" min="0" max="100" step="5" value="70" inputmode="numeric">
+          <div class="hint">Buildings, core staff and other costs that don't shrink when a few students leave</div></div>
+        <div><label for="ti">Tuition increase each year (%)</label><input id="ti" type="number" min="-20" max="30" step="0.5" value="3" inputmode="decimal"></div>
+        <div><label for="sg">Parish and fundraising change each year (%)</label><input id="sg" type="number" min="-30" max="30" step="0.5" value="0" inputmode="decimal"></div>
+        <div><label for="boost">Enrollment gain from scholarships (% per year)</label><input id="boost" type="number" min="0" max="30" step="0.5" value="0" inputmode="decimal">
+          <div class="hint">Families who could now afford to enroll. Applies only to students in opted-in states.</div></div>
+      </div>
+    </fieldset>
+
+    <div class="slider">
+      <label for="tp">Proposed tuition for next year</label><br>
+      <output id="tpOut" for="tp"></output>
+      <input id="tp" type="range" min="0" max="20000" step="50">
+    </div>
+    <div class="presets" aria-label="Suggested tuition levels">
+      <button type="button" data-preset="now">Keep current tuition</button>
+      <button type="button" data-preset="harmless">Hold scholarship families harmless</button>
+      <button type="button" data-preset="cost">Charge the full cost</button>
+      <button type="button" data-preset="balance">Balance the budget</button>
+    </div>
+
+    <div class="results" aria-live="polite">
+      <div class="card"><h4>What a family pays next year</h4><table class="mini" id="fam"></table><p class="note" id="famNote"></p></div>
+      <div class="card"><h4>The school's budget next year</h4><dl id="bud"></dl></div>
+      <div class="card"><h4>The scholarships behind it</h4><dl id="sgo"></dl></div>
+    </div>
+    <p class="note" id="explain"></p>
+
+    <h3>Five-year outlook</h3>
+    <div class="scroll">
+      <table id="proj">
+        <thead><tr><th>Year</th><th class="n">Students</th><th class="n">Cost per student</th><th class="n">Tuition</th><th class="n">SGO student pays</th><th class="n">Surplus or gap</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" id="projNote"></p>
+  </div>
+
+  <h2>If your state hasn't opted in</h2>
+  <p>21 states (counting DC) have not opted in yet. Their Catholic schools teach 932,724 students. Schools there still have options:</p>
+  <ul class="rules">
+    <li><strong>It isn't too late.</strong> States decide year by year. For 2027, a state must opt in by January 1, 2027 and send its SGO list by February 15, 2027. A state that misses that can still join for later years.</li>
+    <li><strong>Families across the state line still qualify.</strong> 15 of these states border one that has opted in. A student who lives in an opted-in state can receive a scholarship even if the school is across the line. Enter that share in the planner.</li>
+    <li><strong>Your state's donors can still claim the credit, but the money leaves the state.</strong> They can only give to SGOs in opted-in states, so those dollars help other states' families, not yours. That is a strong point to make to state leaders.</li>
+    <li><strong>Show leaders the numbers.</strong> Use the planner's "if my state opts in" option to show what scholarships would mean for your families, and work with your state Catholic conference and diocese.</li>
+    <li><strong>Plan with the aid you have now.</strong> Enter state programs, diocesan tuition funds and parish support under "Other outside aid" so the outlook reflects today, not a hoped-for change.</li>
+  </ul>
+
+  <h2>Catholic school students by state</h2>
+  <p>Bars show students in Catholic schools, counted where the school is located. Blue bars are states that have opted in for 2027.</p>
+  <div class="key sans"><span><i style="background:var(--in)"></i>Opted in</span><span><i style="background:var(--out)"></i>Not yet</span></div>
+  <div class="chart sans" id="chart">
     
-    <div class="row">
+    <div class="row" title="California: 194,812 students in 661 Catholic schools (not yet)">
       <span class="name">California</span>
-      <span class="track"><span class="fill" style="width: 100.0%"></span></span>
-      <span class="num">1,204</span>
+      <span class="track"><span class="fill out" style="width: 100.0%"></span></span>
+      <span class="num">194,812</span>
     </div>
     
-    <div class="row">
+    <div class="row" title="Ohio: 119,194 students in 400 Catholic schools (opted in)">
+      <span class="name">Ohio</span>
+      <span class="track"><span class="fill in" style="width: 61.2%"></span></span>
+      <span class="num">119,194</span>
+    </div>
+    
+    <div class="row" title="New York: 112,601 students in 413 Catholic schools (not yet)">
+      <span class="name">New York</span>
+      <span class="track"><span class="fill out" style="width: 57.8%"></span></span>
+      <span class="num">112,601</span>
+    </div>
+    
+    <div class="row" title="Illinois: 101,717 students in 392 Catholic schools (not yet)">
+      <span class="name">Illinois</span>
+      <span class="track"><span class="fill out" style="width: 52.2%"></span></span>
+      <span class="num">101,717</span>
+    </div>
+    
+    <div class="row" title="Pennsylvania: 98,021 students in 374 Catholic schools (not yet)">
+      <span class="name">Pennsylvania</span>
+      <span class="track"><span class="fill out" style="width: 50.3%"></span></span>
+      <span class="num">98,021</span>
+    </div>
+    
+    <div class="row" title="Florida: 90,547 students in 243 Catholic schools (opted in)">
       <span class="name">Florida</span>
-      <span class="track"><span class="fill" style="width: 81.6%"></span></span>
-      <span class="num">982</span>
+      <span class="track"><span class="fill in" style="width: 46.5%"></span></span>
+      <span class="num">90,547</span>
     </div>
     
-    <div class="row">
-      <span class="name">Georgia</span>
-      <span class="track"><span class="fill" style="width: 42.4%"></span></span>
-      <span class="num">511</span>
+    <div class="row" title="Wisconsin: 65,975 students in 287 Catholic schools (not yet)">
+      <span class="name">Wisconsin</span>
+      <span class="track"><span class="fill out" style="width: 33.9%"></span></span>
+      <span class="num">65,975</span>
     </div>
     
-    <div class="row">
+    <div class="row" title="Texas: 63,150 students in 257 Catholic schools (opted in)">
+      <span class="name">Texas</span>
+      <span class="track"><span class="fill in" style="width: 32.4%"></span></span>
+      <span class="num">63,150</span>
+    </div>
+    
+    <div class="row" title="Louisiana: 59,413 students in 153 Catholic schools (opted in)">
+      <span class="name">Louisiana</span>
+      <span class="track"><span class="fill in" style="width: 30.5%"></span></span>
+      <span class="num">59,413</span>
+    </div>
+    
+    <div class="row" title="Missouri: 55,260 students in 231 Catholic schools (opted in)">
+      <span class="name">Missouri</span>
+      <span class="track"><span class="fill in" style="width: 28.4%"></span></span>
+      <span class="num">55,260</span>
+    </div>
+    
+    <div class="row" title="Indiana: 53,437 students in 207 Catholic schools (opted in)">
+      <span class="name">Indiana</span>
+      <span class="track"><span class="fill in" style="width: 27.4%"></span></span>
+      <span class="num">53,437</span>
+    </div>
+    
+    <div class="row" title="New Jersey: 52,967 students in 198 Catholic schools (not yet)">
+      <span class="name">New Jersey</span>
+      <span class="track"><span class="fill out" style="width: 27.2%"></span></span>
+      <span class="num">52,967</span>
+    </div>
+    
+    <div class="row" title="Maryland: 51,202 students in 141 Catholic schools (not yet)">
+      <span class="name">Maryland</span>
+      <span class="track"><span class="fill out" style="width: 26.3%"></span></span>
+      <span class="num">51,202</span>
+    </div>
+    
+    <div class="row" title="Michigan: 48,065 students in 215 Catholic schools (not yet)">
+      <span class="name">Michigan</span>
+      <span class="track"><span class="fill out" style="width: 24.7%"></span></span>
+      <span class="num">48,065</span>
+    </div>
+    
+    <div class="row" title="Massachusetts: 41,588 students in 168 Catholic schools (not yet)">
+      <span class="name">Massachusetts</span>
+      <span class="track"><span class="fill out" style="width: 21.3%"></span></span>
+      <span class="num">41,588</span>
+    </div>
+    
+    <div class="row" title="Minnesota: 40,511 students in 182 Catholic schools (not yet)">
+      <span class="name">Minnesota</span>
+      <span class="track"><span class="fill out" style="width: 20.8%"></span></span>
+      <span class="num">40,511</span>
+    </div>
+    
+    <div class="row" title="Kentucky: 33,744 students in 118 Catholic schools (opted in)">
+      <span class="name">Kentucky</span>
+      <span class="track"><span class="fill in" style="width: 17.3%"></span></span>
+      <span class="num">33,744</span>
+    </div>
+    
+    <div class="row" title="Iowa: 30,884 students in 108 Catholic schools (opted in)">
+      <span class="name">Iowa</span>
+      <span class="track"><span class="fill in" style="width: 15.9%"></span></span>
+      <span class="num">30,884</span>
+    </div>
+    
+    <div class="row" title="Virginia: 30,326 students in 92 Catholic schools (opted in)">
+      <span class="name">Virginia</span>
+      <span class="track"><span class="fill in" style="width: 15.6%"></span></span>
+      <span class="num">30,326</span>
+    </div>
+    
+    <div class="row" title="Nebraska: 26,578 students in 109 Catholic schools (opted in)">
+      <span class="name">Nebraska</span>
+      <span class="track"><span class="fill in" style="width: 13.6%"></span></span>
+      <span class="num">26,578</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Washington: 25,419 students in 110 Catholic schools (not yet)">
+      <span class="name">Washington</span>
+      <span class="track"><span class="fill out" style="width: 13.0%"></span></span>
+      <span class="num">25,419</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Arizona: 24,810 students in 86 Catholic schools (not yet)">
       <span class="name">Arizona</span>
-      <span class="track"><span class="fill" style="width: 26.4%"></span></span>
-      <span class="num">318</span>
+      <span class="track"><span class="fill out" style="width: 12.7%"></span></span>
+      <span class="num">24,810</span>
     </div>
     
-    <div class="row">
-      <span class="name">Colorado</span>
-      <span class="track"><span class="fill" style="width: 22.0%"></span></span>
-      <span class="num">265</span>
+    <div class="row" hidden data-extra title="Kansas: 23,572 students in 98 Catholic schools (opted in)">
+      <span class="name">Kansas</span>
+      <span class="track"><span class="fill in" style="width: 12.1%"></span></span>
+      <span class="num">23,572</span>
     </div>
     
-    <div class="row">
-      <span class="name">Alabama</span>
-      <span class="track"><span class="fill" style="width: 11.8%"></span></span>
-      <span class="num">142</span>
-    </div>
-    
-    <div class="row">
+    <div class="row" hidden data-extra title="Connecticut: 20,608 students in 96 Catholic schools (not yet)">
       <span class="name">Connecticut</span>
-      <span class="track"><span class="fill" style="width: 9.8%"></span></span>
-      <span class="num">118</span>
+      <span class="track"><span class="fill out" style="width: 10.6%"></span></span>
+      <span class="num">20,608</span>
     </div>
     
-    <div class="row">
+    <div class="row" hidden data-extra title="Georgia: 17,806 students in 46 Catholic schools (opted in)">
+      <span class="name">Georgia</span>
+      <span class="track"><span class="fill in" style="width: 9.1%"></span></span>
+      <span class="num">17,806</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="North Carolina: 17,643 students in 52 Catholic schools (opted in)">
+      <span class="name">North Carolina</span>
+      <span class="track"><span class="fill in" style="width: 9.1%"></span></span>
+      <span class="num">17,643</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Colorado: 15,491 students in 60 Catholic schools (opted in)">
+      <span class="name">Colorado</span>
+      <span class="track"><span class="fill in" style="width: 8.0%"></span></span>
+      <span class="num">15,491</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Oregon: 14,172 students in 54 Catholic schools (not yet)">
+      <span class="name">Oregon</span>
+      <span class="track"><span class="fill out" style="width: 7.3%"></span></span>
+      <span class="num">14,172</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Tennessee: 11,446 students in 39 Catholic schools (opted in)">
+      <span class="name">Tennessee</span>
+      <span class="track"><span class="fill in" style="width: 5.9%"></span></span>
+      <span class="num">11,446</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Alabama: 10,434 students in 43 Catholic schools (opted in)">
+      <span class="name">Alabama</span>
+      <span class="track"><span class="fill in" style="width: 5.4%"></span></span>
+      <span class="num">10,434</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Rhode Island: 10,149 students in 40 Catholic schools (not yet)">
+      <span class="name">Rhode Island</span>
+      <span class="track"><span class="fill out" style="width: 5.2%"></span></span>
+      <span class="num">10,149</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="North Dakota: 8,051 students in 27 Catholic schools (opted in)">
+      <span class="name">North Dakota</span>
+      <span class="track"><span class="fill in" style="width: 4.1%"></span></span>
+      <span class="num">8,051</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="South Dakota: 7,966 students in 30 Catholic schools (opted in)">
+      <span class="name">South Dakota</span>
+      <span class="track"><span class="fill in" style="width: 4.1%"></span></span>
+      <span class="num">7,966</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="District of Columbia: 7,491 students in 24 Catholic schools (not yet)">
+      <span class="name">District of Columbia</span>
+      <span class="track"><span class="fill out" style="width: 3.8%"></span></span>
+      <span class="num">7,491</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Hawaii: 7,397 students in 28 Catholic schools (not yet)">
+      <span class="name">Hawaii</span>
+      <span class="track"><span class="fill out" style="width: 3.8%"></span></span>
+      <span class="num">7,397</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Nevada: 7,269 students in 18 Catholic schools (opted in)">
+      <span class="name">Nevada</span>
+      <span class="track"><span class="fill in" style="width: 3.7%"></span></span>
+      <span class="num">7,269</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Mississippi: 7,230 students in 30 Catholic schools (opted in)">
+      <span class="name">Mississippi</span>
+      <span class="track"><span class="fill in" style="width: 3.7%"></span></span>
+      <span class="num">7,230</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Oklahoma: 7,117 students in 27 Catholic schools (opted in)">
+      <span class="name">Oklahoma</span>
+      <span class="track"><span class="fill in" style="width: 3.7%"></span></span>
+      <span class="num">7,117</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Arkansas: 6,898 students in 30 Catholic schools (opted in)">
       <span class="name">Arkansas</span>
-      <span class="track"><span class="fill" style="width: 8.1%"></span></span>
-      <span class="num">97</span>
+      <span class="track"><span class="fill in" style="width: 3.5%"></span></span>
+      <span class="num">6,898</span>
     </div>
     
-    <div class="row">
+    <div class="row" hidden data-extra title="South Carolina: 6,174 students in 32 Catholic schools (opted in)">
+      <span class="name">South Carolina</span>
+      <span class="track"><span class="fill in" style="width: 3.2%"></span></span>
+      <span class="num">6,174</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Delaware: 6,122 students in 22 Catholic schools (not yet)">
       <span class="name">Delaware</span>
-      <span class="track"><span class="fill" style="width: 3.7%"></span></span>
-      <span class="num">44</span>
+      <span class="track"><span class="fill out" style="width: 3.1%"></span></span>
+      <span class="num">6,122</span>
     </div>
     
-    <div class="row">
+    <div class="row" hidden data-extra title="New Mexico: 4,984 students in 30 Catholic schools (not yet)">
+      <span class="name">New Mexico</span>
+      <span class="track"><span class="fill out" style="width: 2.6%"></span></span>
+      <span class="num">4,984</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="New Hampshire: 4,939 students in 29 Catholic schools (opted in)">
+      <span class="name">New Hampshire</span>
+      <span class="track"><span class="fill in" style="width: 2.5%"></span></span>
+      <span class="num">4,939</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Idaho: 4,751 students in 23 Catholic schools (opted in)">
+      <span class="name">Idaho</span>
+      <span class="track"><span class="fill in" style="width: 2.4%"></span></span>
+      <span class="num">4,751</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="West Virginia: 3,872 students in 27 Catholic schools (opted in)">
+      <span class="name">West Virginia</span>
+      <span class="track"><span class="fill in" style="width: 2.0%"></span></span>
+      <span class="num">3,872</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Montana: 3,695 students in 23 Catholic schools (opted in)">
+      <span class="name">Montana</span>
+      <span class="track"><span class="fill in" style="width: 1.9%"></span></span>
+      <span class="num">3,695</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Utah: 3,456 students in 15 Catholic schools (opted in)">
+      <span class="name">Utah</span>
+      <span class="track"><span class="fill in" style="width: 1.8%"></span></span>
+      <span class="num">3,456</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Maine: 2,575 students in 12 Catholic schools (not yet)">
+      <span class="name">Maine</span>
+      <span class="track"><span class="fill out" style="width: 1.3%"></span></span>
+      <span class="num">2,575</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Vermont: 1,538 students in 13 Catholic schools (not yet)">
+      <span class="name">Vermont</span>
+      <span class="track"><span class="fill out" style="width: 0.8%"></span></span>
+      <span class="num">1,538</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Alaska: 1,528 students in 7 Catholic schools (opted in)">
       <span class="name">Alaska</span>
-      <span class="track"><span class="fill" style="width: 2.6%"></span></span>
-      <span class="num">31</span>
+      <span class="track"><span class="fill in" style="width: 0.8%"></span></span>
+      <span class="num">1,528</span>
+    </div>
+    
+    <div class="row" hidden data-extra title="Wyoming: 409 students in 6 Catholic schools (opted in)">
+      <span class="name">Wyoming</span>
+      <span class="track"><span class="fill in" style="width: 0.2%"></span></span>
+      <span class="num">409</span>
     </div>
     
   </div>
+  <button type="button" class="more sans" id="more">Show all 51</button>
 
   <h2>The data</h2>
   <div class="scroll">
-    <table>
+    <table class="sans">
       <thead>
-        <tr><th>label</th><th>value</th><th>year</th></tr>
+        <tr><th>State</th><th>Federal credit</th><th>Opted-in neighbors</th><th class="n">Catholic schools</th><th class="n">Catholic students</th><th class="n">Share of private school students</th></tr>
       </thead>
       <tbody>
         
-        <tr><td>California</td><td>1204</td><td>2025</td></tr>
+        <tr><td>Alabama</td><td>Opted in</td><td>Florida, Georgia, Mississippi, Tennessee</td><td class="n">43</td><td class="n">10,434</td><td class="n">17%</td></tr>
         
-        <tr><td>Florida</td><td>982</td><td>2025</td></tr>
+        <tr><td>Alaska</td><td>Opted in</td><td></td><td class="n">7</td><td class="n">1,528</td><td class="n">34%</td></tr>
         
-        <tr><td>Georgia</td><td>511</td><td>2025</td></tr>
+        <tr><td>Arizona</td><td>Not yet</td><td>Colorado, Nevada, Utah</td><td class="n">86</td><td class="n">24,810</td><td class="n">37%</td></tr>
         
-        <tr><td>Arizona</td><td>318</td><td>2025</td></tr>
+        <tr><td>Arkansas</td><td>Opted in</td><td>Louisiana, Mississippi, Missouri, Oklahoma, Tennessee, Texas</td><td class="n">30</td><td class="n">6,898</td><td class="n">30%</td></tr>
         
-        <tr><td>Colorado</td><td>265</td><td>2025</td></tr>
+        <tr><td>California</td><td>Not yet</td><td>Nevada</td><td class="n">661</td><td class="n">194,812</td><td class="n">35%</td></tr>
         
-        <tr><td>Alabama</td><td>142</td><td>2025</td></tr>
+        <tr><td>Colorado</td><td>Opted in</td><td>Kansas, Nebraska, Oklahoma, Utah, Wyoming</td><td class="n">60</td><td class="n">15,491</td><td class="n">30%</td></tr>
         
-        <tr><td>Connecticut</td><td>118</td><td>2025</td></tr>
+        <tr><td>Connecticut</td><td>Not yet</td><td></td><td class="n">96</td><td class="n">20,608</td><td class="n">38%</td></tr>
         
-        <tr><td>Arkansas</td><td>97</td><td>2025</td></tr>
+        <tr><td>Delaware</td><td>Not yet</td><td></td><td class="n">22</td><td class="n">6,122</td><td class="n">31%</td></tr>
         
-        <tr><td>Delaware</td><td>44</td><td>2025</td></tr>
+        <tr><td>District of Columbia</td><td>Not yet</td><td>Virginia</td><td class="n">24</td><td class="n">7,491</td><td class="n">36%</td></tr>
         
-        <tr><td>Alaska</td><td>31</td><td>2025</td></tr>
+        <tr><td>Florida</td><td>Opted in</td><td>Alabama, Georgia</td><td class="n">243</td><td class="n">90,547</td><td class="n">21%</td></tr>
+        
+        <tr><td>Georgia</td><td>Opted in</td><td>Alabama, Florida, North Carolina, South Carolina, Tennessee</td><td class="n">46</td><td class="n">17,806</td><td class="n">12%</td></tr>
+        
+        <tr><td>Hawaii</td><td>Not yet</td><td></td><td class="n">28</td><td class="n">7,397</td><td class="n">20%</td></tr>
+        
+        <tr><td>Idaho</td><td>Opted in</td><td>Montana, Nevada, Utah, Wyoming</td><td class="n">23</td><td class="n">4,751</td><td class="n">25%</td></tr>
+        
+        <tr><td>Illinois</td><td>Not yet</td><td>Indiana, Iowa, Kentucky, Missouri</td><td class="n">392</td><td class="n">101,717</td><td class="n">55%</td></tr>
+        
+        <tr><td>Indiana</td><td>Opted in</td><td>Kentucky, Ohio</td><td class="n">207</td><td class="n">53,437</td><td class="n">48%</td></tr>
+        
+        <tr><td>Iowa</td><td>Opted in</td><td>Missouri, Nebraska, South Dakota</td><td class="n">108</td><td class="n">30,884</td><td class="n">64%</td></tr>
+        
+        <tr><td>Kansas</td><td>Opted in</td><td>Colorado, Missouri, Nebraska, Oklahoma</td><td class="n">98</td><td class="n">23,572</td><td class="n">58%</td></tr>
+        
+        <tr><td>Kentucky</td><td>Opted in</td><td>Indiana, Missouri, Ohio, Tennessee, Virginia, West Virginia</td><td class="n">118</td><td class="n">33,744</td><td class="n">53%</td></tr>
+        
+        <tr><td>Louisiana</td><td>Opted in</td><td>Arkansas, Mississippi, Texas</td><td class="n">153</td><td class="n">59,413</td><td class="n">58%</td></tr>
+        
+        <tr><td>Maine</td><td>Not yet</td><td>New Hampshire</td><td class="n">12</td><td class="n">2,575</td><td class="n">15%</td></tr>
+        
+        <tr><td>Maryland</td><td>Not yet</td><td>Virginia, West Virginia</td><td class="n">141</td><td class="n">51,202</td><td class="n">41%</td></tr>
+        
+        <tr><td>Massachusetts</td><td>Not yet</td><td>New Hampshire</td><td class="n">168</td><td class="n">41,588</td><td class="n">40%</td></tr>
+        
+        <tr><td>Michigan</td><td>Not yet</td><td>Indiana, Ohio</td><td class="n">215</td><td class="n">48,065</td><td class="n">42%</td></tr>
+        
+        <tr><td>Minnesota</td><td>Not yet</td><td>Iowa, North Dakota, South Dakota</td><td class="n">182</td><td class="n">40,511</td><td class="n">53%</td></tr>
+        
+        <tr><td>Mississippi</td><td>Opted in</td><td>Alabama, Arkansas, Louisiana, Tennessee</td><td class="n">30</td><td class="n">7,230</td><td class="n">17%</td></tr>
+        
+        <tr><td>Missouri</td><td>Opted in</td><td>Arkansas, Iowa, Kansas, Kentucky, Nebraska, Oklahoma, Tennessee</td><td class="n">231</td><td class="n">55,260</td><td class="n">58%</td></tr>
+        
+        <tr><td>Montana</td><td>Opted in</td><td>Idaho, North Dakota, South Dakota, Wyoming</td><td class="n">23</td><td class="n">3,695</td><td class="n">36%</td></tr>
+        
+        <tr><td>Nebraska</td><td>Opted in</td><td>Colorado, Iowa, Kansas, Missouri, South Dakota, Wyoming</td><td class="n">109</td><td class="n">26,578</td><td class="n">72%</td></tr>
+        
+        <tr><td>Nevada</td><td>Opted in</td><td>Idaho, Utah</td><td class="n">18</td><td class="n">7,269</td><td class="n">30%</td></tr>
+        
+        <tr><td>New Hampshire</td><td>Opted in</td><td></td><td class="n">29</td><td class="n">4,939</td><td class="n">24%</td></tr>
+        
+        <tr><td>New Jersey</td><td>Not yet</td><td></td><td class="n">198</td><td class="n">52,967</td><td class="n">29%</td></tr>
+        
+        <tr><td>New Mexico</td><td>Not yet</td><td>Colorado, Oklahoma, Texas, Utah</td><td class="n">30</td><td class="n">4,984</td><td class="n">23%</td></tr>
+        
+        <tr><td>New York</td><td>Not yet</td><td></td><td class="n">413</td><td class="n">112,601</td><td class="n">32%</td></tr>
+        
+        <tr><td>North Carolina</td><td>Opted in</td><td>Georgia, South Carolina, Tennessee, Virginia</td><td class="n">52</td><td class="n">17,643</td><td class="n">14%</td></tr>
+        
+        <tr><td>North Dakota</td><td>Opted in</td><td>Montana, South Dakota</td><td class="n">27</td><td class="n">8,051</td><td class="n">70%</td></tr>
+        
+        <tr><td>Ohio</td><td>Opted in</td><td>Indiana, Kentucky, West Virginia</td><td class="n">400</td><td class="n">119,194</td><td class="n">60%</td></tr>
+        
+        <tr><td>Oklahoma</td><td>Opted in</td><td>Arkansas, Colorado, Kansas, Missouri, Texas</td><td class="n">27</td><td class="n">7,117</td><td class="n">21%</td></tr>
+        
+        <tr><td>Oregon</td><td>Not yet</td><td>Idaho, Nevada</td><td class="n">54</td><td class="n">14,172</td><td class="n">33%</td></tr>
+        
+        <tr><td>Pennsylvania</td><td>Not yet</td><td>Ohio, West Virginia</td><td class="n">374</td><td class="n">98,021</td><td class="n">46%</td></tr>
+        
+        <tr><td>Rhode Island</td><td>Not yet</td><td></td><td class="n">40</td><td class="n">10,149</td><td class="n">60%</td></tr>
+        
+        <tr><td>South Carolina</td><td>Opted in</td><td>Georgia, North Carolina</td><td class="n">32</td><td class="n">6,174</td><td class="n">10%</td></tr>
+        
+        <tr><td>South Dakota</td><td>Opted in</td><td>Iowa, Montana, Nebraska, North Dakota, Wyoming</td><td class="n">30</td><td class="n">7,966</td><td class="n">57%</td></tr>
+        
+        <tr><td>Tennessee</td><td>Opted in</td><td>Alabama, Arkansas, Georgia, Kentucky, Mississippi, Missouri, North Carolina, Virginia</td><td class="n">39</td><td class="n">11,446</td><td class="n">11%</td></tr>
+        
+        <tr><td>Texas</td><td>Opted in</td><td>Arkansas, Louisiana, Oklahoma</td><td class="n">257</td><td class="n">63,150</td><td class="n">25%</td></tr>
+        
+        <tr><td>Utah</td><td>Opted in</td><td>Colorado, Idaho, Nevada, Wyoming</td><td class="n">15</td><td class="n">3,456</td><td class="n">22%</td></tr>
+        
+        <tr><td>Vermont</td><td>Not yet</td><td>New Hampshire</td><td class="n">13</td><td class="n">1,538</td><td class="n">18%</td></tr>
+        
+        <tr><td>Virginia</td><td>Opted in</td><td>Kentucky, North Carolina, Tennessee, West Virginia</td><td class="n">92</td><td class="n">30,326</td><td class="n">26%</td></tr>
+        
+        <tr><td>Washington</td><td>Not yet</td><td>Idaho</td><td class="n">110</td><td class="n">25,419</td><td class="n">26%</td></tr>
+        
+        <tr><td>West Virginia</td><td>Opted in</td><td>Kentucky, Ohio, Virginia</td><td class="n">27</td><td class="n">3,872</td><td class="n">33%</td></tr>
+        
+        <tr><td>Wisconsin</td><td>Not yet</td><td>Iowa</td><td class="n">287</td><td class="n">65,975</td><td class="n">49%</td></tr>
+        
+        <tr><td>Wyoming</td><td>Opted in</td><td>Colorado, Idaho, Montana, Nebraska, South Dakota, Utah</td><td class="n">6</td><td class="n">409</td><td class="n">24%</td></tr>
         
       </tbody>
     </table>
   </div>
 
   <footer>
-    <p><strong>Last updated October 09, 2026.</strong> 10 records.</p>
-    <p>Source: <a href="https://example.org/the-dataset">Name of the dataset</a>. What was counted, what was excluded, and what these numbers cannot show.</p>
-    <p>Compiled by Your name.</p>
+    <p><strong>Last updated October 09, 2026.</strong> 51 states and DC. The IRS list is checked every day.</p>
+    <p>Sources: <a href="https://www.irs.gov/charities-non-profits/federal-scholarship-tax-credit-fstc">IRS, Federal Scholarship Tax Credit participating states</a> (as of September 14, 2026); <a href="https://nces.ed.gov/surveys/pss/pssdata.asp">NCES Private School Universe Survey, 2021-22</a>. State participation is read from the IRS list each day. Catholic schools and students are counted from the federal private school survey (schools with a Roman Catholic orientation, weighted for non-response) and are counted by where the school is located. The calculator is a planning aid built on your own inputs. It is not tax or legal advice, and Treasury's rules are still proposed and may change.</p>
+    <p>Compiled by Jennifer Weber.</p>
     <a class="dl" href="data.csv" download>Download the raw data (CSV)</a>
   </footer>
 
 </div>
+
+<script>
+const STATES = [{"state": "California", "abbr": "CA", "status": "Not yet", "opted_in": false, "catholic_schools": 661, "catholic_students": 194812, "all_private_students": 551208, "neighbors": "AZ NV OR", "opted_in_neighbors": "Nevada"}, {"state": "Ohio", "abbr": "OH", "status": "Opted in", "opted_in": true, "catholic_schools": 400, "catholic_students": 119194, "all_private_students": 198751, "neighbors": "IN KY MI PA WV", "opted_in_neighbors": "Indiana; Kentucky; West Virginia"}, {"state": "New York", "abbr": "NY", "status": "Not yet", "opted_in": false, "catholic_schools": 413, "catholic_students": 112601, "all_private_students": 354556, "neighbors": "CT MA NJ PA VT", "opted_in_neighbors": NaN}, {"state": "Illinois", "abbr": "IL", "status": "Not yet", "opted_in": false, "catholic_schools": 392, "catholic_students": 101717, "all_private_students": 185939, "neighbors": "IN IA KY MO WI", "opted_in_neighbors": "Indiana; Iowa; Kentucky; Missouri"}, {"state": "Pennsylvania", "abbr": "PA", "status": "Not yet", "opted_in": false, "catholic_schools": 374, "catholic_students": 98021, "all_private_students": 214124, "neighbors": "DE MD NJ NY OH WV", "opted_in_neighbors": "Ohio; West Virginia"}, {"state": "Florida", "abbr": "FL", "status": "Opted in", "opted_in": true, "catholic_schools": 243, "catholic_students": 90547, "all_private_students": 421860, "neighbors": "AL GA", "opted_in_neighbors": "Alabama; Georgia"}, {"state": "Wisconsin", "abbr": "WI", "status": "Not yet", "opted_in": false, "catholic_schools": 287, "catholic_students": 65975, "all_private_students": 134527, "neighbors": "IL IA MI MN", "opted_in_neighbors": "Iowa"}, {"state": "Texas", "abbr": "TX", "status": "Opted in", "opted_in": true, "catholic_schools": 257, "catholic_students": 63150, "all_private_students": 257706, "neighbors": "AR LA NM OK", "opted_in_neighbors": "Arkansas; Louisiana; Oklahoma"}, {"state": "Louisiana", "abbr": "LA", "status": "Opted in", "opted_in": true, "catholic_schools": 153, "catholic_students": 59413, "all_private_students": 102453, "neighbors": "AR MS TX", "opted_in_neighbors": "Arkansas; Mississippi; Texas"}, {"state": "Missouri", "abbr": "MO", "status": "Opted in", "opted_in": true, "catholic_schools": 231, "catholic_students": 55260, "all_private_students": 95828, "neighbors": "AR IL IA KS KY NE OK TN", "opted_in_neighbors": "Arkansas; Iowa; Kansas; Kentucky; Nebraska; Oklahoma; Tennessee"}, {"state": "Indiana", "abbr": "IN", "status": "Opted in", "opted_in": true, "catholic_schools": 207, "catholic_students": 53437, "all_private_students": 112153, "neighbors": "IL KY MI OH", "opted_in_neighbors": "Kentucky; Ohio"}, {"state": "New Jersey", "abbr": "NJ", "status": "Not yet", "opted_in": false, "catholic_schools": 198, "catholic_students": 52967, "all_private_students": 179845, "neighbors": "DE NY PA", "opted_in_neighbors": NaN}, {"state": "Maryland", "abbr": "MD", "status": "Not yet", "opted_in": false, "catholic_schools": 141, "catholic_students": 51202, "all_private_students": 126187, "neighbors": "DE PA VA WV DC", "opted_in_neighbors": "Virginia; West Virginia"}, {"state": "Michigan", "abbr": "MI", "status": "Not yet", "opted_in": false, "catholic_schools": 215, "catholic_students": 48065, "all_private_students": 114137, "neighbors": "IN OH WI", "opted_in_neighbors": "Indiana; Ohio"}, {"state": "Massachusetts", "abbr": "MA", "status": "Not yet", "opted_in": false, "catholic_schools": 168, "catholic_students": 41588, "all_private_students": 102762, "neighbors": "CT NH NY RI VT", "opted_in_neighbors": "New Hampshire"}, {"state": "Minnesota", "abbr": "MN", "status": "Not yet", "opted_in": false, "catholic_schools": 182, "catholic_students": 40511, "all_private_students": 76533, "neighbors": "IA ND SD WI", "opted_in_neighbors": "Iowa; North Dakota; South Dakota"}, {"state": "Kentucky", "abbr": "KY", "status": "Opted in", "opted_in": true, "catholic_schools": 118, "catholic_students": 33744, "all_private_students": 64243, "neighbors": "IL IN MO OH TN VA WV", "opted_in_neighbors": "Indiana; Missouri; Ohio; Tennessee; Virginia; West Virginia"}, {"state": "Iowa", "abbr": "IA", "status": "Opted in", "opted_in": true, "catholic_schools": 108, "catholic_students": 30884, "all_private_students": 48415, "neighbors": "IL MN MO NE SD WI", "opted_in_neighbors": "Missouri; Nebraska; South Dakota"}, {"state": "Virginia", "abbr": "VA", "status": "Opted in", "opted_in": true, "catholic_schools": 92, "catholic_students": 30326, "all_private_students": 118820, "neighbors": "KY MD NC TN WV DC", "opted_in_neighbors": "Kentucky; North Carolina; Tennessee; West Virginia"}, {"state": "Nebraska", "abbr": "NE", "status": "Opted in", "opted_in": true, "catholic_schools": 109, "catholic_students": 26578, "all_private_students": 36820, "neighbors": "CO IA KS MO SD WY", "opted_in_neighbors": "Colorado; Iowa; Kansas; Missouri; South Dakota; Wyoming"}, {"state": "Washington", "abbr": "WA", "status": "Not yet", "opted_in": false, "catholic_schools": 110, "catholic_students": 25419, "all_private_students": 97081, "neighbors": "ID OR", "opted_in_neighbors": "Idaho"}, {"state": "Arizona", "abbr": "AZ", "status": "Not yet", "opted_in": false, "catholic_schools": 86, "catholic_students": 24810, "all_private_students": 66848, "neighbors": "CA CO NV NM UT", "opted_in_neighbors": "Colorado; Nevada; Utah"}, {"state": "Kansas", "abbr": "KS", "status": "Opted in", "opted_in": true, "catholic_schools": 98, "catholic_students": 23572, "all_private_students": 40568, "neighbors": "CO MO NE OK", "opted_in_neighbors": "Colorado; Missouri; Nebraska; Oklahoma"}, {"state": "Connecticut", "abbr": "CT", "status": "Not yet", "opted_in": false, "catholic_schools": 96, "catholic_students": 20608, "all_private_students": 54551, "neighbors": "MA NY RI", "opted_in_neighbors": NaN}, {"state": "Georgia", "abbr": "GA", "status": "Opted in", "opted_in": true, "catholic_schools": 46, "catholic_students": 17806, "all_private_students": 151511, "neighbors": "AL FL NC SC TN", "opted_in_neighbors": "Alabama; Florida; North Carolina; South Carolina; Tennessee"}, {"state": "North Carolina", "abbr": "NC", "status": "Opted in", "opted_in": true, "catholic_schools": 52, "catholic_students": 17643, "all_private_students": 127675, "neighbors": "GA SC TN VA", "opted_in_neighbors": "Georgia; South Carolina; Tennessee; Virginia"}, {"state": "Colorado", "abbr": "CO", "status": "Opted in", "opted_in": true, "catholic_schools": 60, "catholic_students": 15491, "all_private_students": 52073, "neighbors": "AZ KS NE NM OK UT WY", "opted_in_neighbors": "Kansas; Nebraska; Oklahoma; Utah; Wyoming"}, {"state": "Oregon", "abbr": "OR", "status": "Not yet", "opted_in": false, "catholic_schools": 54, "catholic_students": 14172, "all_private_students": 43265, "neighbors": "CA ID NV WA", "opted_in_neighbors": "Idaho; Nevada"}, {"state": "Tennessee", "abbr": "TN", "status": "Opted in", "opted_in": true, "catholic_schools": 39, "catholic_students": 11446, "all_private_students": 101885, "neighbors": "AL AR GA KY MS MO NC VA", "opted_in_neighbors": "Alabama; Arkansas; Georgia; Kentucky; Mississippi; Missouri; North Carolina; Virginia"}, {"state": "Alabama", "abbr": "AL", "status": "Opted in", "opted_in": true, "catholic_schools": 43, "catholic_students": 10434, "all_private_students": 63062, "neighbors": "FL GA MS TN", "opted_in_neighbors": "Florida; Georgia; Mississippi; Tennessee"}, {"state": "Rhode Island", "abbr": "RI", "status": "Not yet", "opted_in": false, "catholic_schools": 40, "catholic_students": 10149, "all_private_students": 17016, "neighbors": "CT MA", "opted_in_neighbors": NaN}, {"state": "North Dakota", "abbr": "ND", "status": "Opted in", "opted_in": true, "catholic_schools": 27, "catholic_students": 8051, "all_private_students": 11563, "neighbors": "MN MT SD", "opted_in_neighbors": "Montana; South Dakota"}, {"state": "South Dakota", "abbr": "SD", "status": "Opted in", "opted_in": true, "catholic_schools": 30, "catholic_students": 7966, "all_private_students": 13977, "neighbors": "IA MN MT NE ND WY", "opted_in_neighbors": "Iowa; Montana; Nebraska; North Dakota; Wyoming"}, {"state": "District of Columbia", "abbr": "DC", "status": "Not yet", "opted_in": false, "catholic_schools": 24, "catholic_students": 7491, "all_private_students": 20735, "neighbors": "MD VA", "opted_in_neighbors": "Virginia"}, {"state": "Hawaii", "abbr": "HI", "status": "Not yet", "opted_in": false, "catholic_schools": 28, "catholic_students": 7397, "all_private_students": 36469, "neighbors": NaN, "opted_in_neighbors": NaN}, {"state": "Nevada", "abbr": "NV", "status": "Opted in", "opted_in": true, "catholic_schools": 18, "catholic_students": 7269, "all_private_students": 24424, "neighbors": "AZ CA ID OR UT", "opted_in_neighbors": "Idaho; Utah"}, {"state": "Mississippi", "abbr": "MS", "status": "Opted in", "opted_in": true, "catholic_schools": 30, "catholic_students": 7230, "all_private_students": 43338, "neighbors": "AL AR LA TN", "opted_in_neighbors": "Alabama; Arkansas; Louisiana; Tennessee"}, {"state": "Oklahoma", "abbr": "OK", "status": "Opted in", "opted_in": true, "catholic_schools": 27, "catholic_students": 7117, "all_private_students": 34496, "neighbors": "AR CO KS MO NM TX", "opted_in_neighbors": "Arkansas; Colorado; Kansas; Missouri; Texas"}, {"state": "Arkansas", "abbr": "AR", "status": "Opted in", "opted_in": true, "catholic_schools": 30, "catholic_students": 6898, "all_private_students": 23334, "neighbors": "LA MS MO OK TN TX", "opted_in_neighbors": "Louisiana; Mississippi; Missouri; Oklahoma; Tennessee; Texas"}, {"state": "South Carolina", "abbr": "SC", "status": "Opted in", "opted_in": true, "catholic_schools": 32, "catholic_students": 6174, "all_private_students": 59642, "neighbors": "GA NC", "opted_in_neighbors": "Georgia; North Carolina"}, {"state": "Delaware", "abbr": "DE", "status": "Not yet", "opted_in": false, "catholic_schools": 22, "catholic_students": 6122, "all_private_students": 19852, "neighbors": "MD NJ PA", "opted_in_neighbors": NaN}, {"state": "New Mexico", "abbr": "NM", "status": "Not yet", "opted_in": false, "catholic_schools": 30, "catholic_students": 4984, "all_private_students": 21941, "neighbors": "AZ CO OK TX UT", "opted_in_neighbors": "Colorado; Oklahoma; Texas; Utah"}, {"state": "New Hampshire", "abbr": "NH", "status": "Opted in", "opted_in": true, "catholic_schools": 29, "catholic_students": 4939, "all_private_students": 20884, "neighbors": "ME MA VT", "opted_in_neighbors": NaN}, {"state": "Idaho", "abbr": "ID", "status": "Opted in", "opted_in": true, "catholic_schools": 23, "catholic_students": 4751, "all_private_students": 19056, "neighbors": "MT NV OR UT WA WY", "opted_in_neighbors": "Montana; Nevada; Utah; Wyoming"}, {"state": "West Virginia", "abbr": "WV", "status": "Opted in", "opted_in": true, "catholic_schools": 27, "catholic_students": 3872, "all_private_students": 11741, "neighbors": "KY MD OH PA VA", "opted_in_neighbors": "Kentucky; Ohio; Virginia"}, {"state": "Montana", "abbr": "MT", "status": "Opted in", "opted_in": true, "catholic_schools": 23, "catholic_students": 3695, "all_private_students": 10145, "neighbors": "ID ND SD WY", "opted_in_neighbors": "Idaho; North Dakota; South Dakota; Wyoming"}, {"state": "Utah", "abbr": "UT", "status": "Opted in", "opted_in": true, "catholic_schools": 15, "catholic_students": 3456, "all_private_students": 15769, "neighbors": "AZ CO ID NV NM WY", "opted_in_neighbors": "Colorado; Idaho; Nevada; Wyoming"}, {"state": "Maine", "abbr": "ME", "status": "Not yet", "opted_in": false, "catholic_schools": 12, "catholic_students": 2575, "all_private_students": 17016, "neighbors": "NH", "opted_in_neighbors": "New Hampshire"}, {"state": "Vermont", "abbr": "VT", "status": "Not yet", "opted_in": false, "catholic_schools": 13, "catholic_students": 1538, "all_private_students": 8373, "neighbors": "MA NH NY", "opted_in_neighbors": "New Hampshire"}, {"state": "Alaska", "abbr": "AK", "status": "Opted in", "opted_in": true, "catholic_schools": 7, "catholic_students": 1528, "all_private_students": 4468, "neighbors": NaN, "opted_in_neighbors": NaN}, {"state": "Wyoming", "abbr": "WY", "status": "Opted in", "opted_in": true, "catholic_schools": 6, "catholic_students": 409, "all_private_students": 1681, "neighbors": "CO ID MT NE SD UT", "opted_in_neighbors": "Colorado; Idaho; Montana; Nebraska; South Dakota; Utah"}];
+const CREDIT = 1700;
+const LIST_DEADLINE = "February 15, 2027";
+const YEAR = 2027;
+const YEARS = 5;
+
+const $ = id => document.getElementById(id);
+const usd = x => (x < 0 ? "−$" : "$") + Math.round(Math.abs(x)).toLocaleString("en-US");
+const num = x => Math.round(x).toLocaleString("en-US");
+const val = id => Math.max(0, parseFloat($(id).value) || 0);
+const rate = id => (parseFloat($(id).value) || 0) / 100;      // may be negative
+const pct = id => Math.min(100, val(id)) / 100;
+const change = (now, before) => {
+  const d = now - before;
+  if (Math.abs(d) < 0.5) return "no change";
+  return `<span class="${d > 0 ? "up" : "down"}">${d > 0 ? "+" : "−"}$${num(Math.abs(d))}</span>`;
+};
+const rows = items => items.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+const neighbors = s => typeof s.opted_in_neighbors === "string" && s.opted_in_neighbors
+  ? s.opted_in_neighbors.split("; ") : [];
+
+function inputs() {
+  const state = STATES.find(s => s.state === $("st").value);
+  const whatIf = !state.opted_in && $("whatif").checked;
+  const x = {
+    state, whatIf,
+    n: Math.max(1, val("n")), c: val("c"), t: val("t"), s: val("s"), f: val("f"),
+    s2: pct("s2"), d2: pct("d2"), s3: pct("s3"), d3: pct("d3"), el: val("el") / 100,
+    // Share of students who can get a federal SGO scholarship at all.
+    r: whatIf ? 1 : pct("r"),
+    e: pct("e"), p: pct("p"), a: val("a"), aidcut: pct("aidcut"),
+    q: pct("q"), o: val("o"),
+    ci: rate("ci"), g: rate("g"), fx: pct("fx"), ti: rate("ti"), sg: rate("sg"), boost: rate("boost"),
+  };
+  // Average share of the full rate actually billed, after sibling discounts.
+  x.disc = Math.max(0, 1 - x.s2 * x.d2 - x.s3 * x.d3);
+  x.sgoShare = x.r * x.e * x.p;
+  return x;
+}
+
+// The school's own aid still needed once SGO aid arrives.
+const schoolAidFor = x => x.f * (1 - (x.r > 0 ? x.aidcut : 0));
+
+// Share of students lost when bills rise: `el` per $1,000 of increase, counted
+// only for families whose own bill goes up. Capped so a typo can't empty the school.
+function leaving(x, sgoRise, otherRise) {
+  const lost = x.el / 1000 * (x.sgoShare * Math.max(0, sgoRise) + (1 - x.sgoShare) * Math.max(0, otherRise));
+  return Math.min(0.6, lost);
+}
+
+// Five years forward from next year's proposed tuition. Fixed costs grow with
+// inflation whatever happens to enrollment; the rest scales with students.
+function project(x, tp) {
+  const fixed = x.fx * x.c * x.n;
+  const perStudent = (1 - x.fx) * x.c;
+  const out = [];
+  let n = x.n, prevT = x.t, aid1 = 0, n1 = 0;
+  for (let y = 0; y < YEARS; y++) {
+    const tuition = tp * Math.pow(1 + x.ti, y);
+    const award = Math.min(x.a, tuition);
+    if (y === 0) {
+      // Next year: scholarship families compare against today's full price.
+      n = x.n * (1 - leaving(x, tuition - award - x.t, tuition - x.t));
+    } else {
+      const rise = tuition - prevT;
+      n = n * (1 + x.g + x.boost * x.r) * (1 - leaving(x, rise, rise));
+    }
+    const cost = (fixed + perStudent * n) * Math.pow(1 + x.ci, y);
+    const support = x.s * Math.pow(1 + x.sg, y);
+    if (y === 0) { aid1 = schoolAidFor(x) * n / x.n; n1 = n; }
+    const aid = aid1 * (n / n1) * (tuition / tp || 0);
+    const billed = n * tuition * x.disc;
+    out.push({
+      year: y + 1, n, tuition, award, billed, aid, support, cost, costPer: cost / n,
+      sgoPays: Math.max(0, tuition - award),
+      gap: billed - aid + support - cost,
+      breakEven: (cost - support) / (n * x.disc - (aid / (tuition || 1))),
+    });
+    prevT = tuition;
+  }
+  return out;
+}
+
+// Tuition levels the preset buttons jump to.
+function presets(x) {
+  const lift = x.r > 0 ? x.a : x.o;   // the aid a typical aided family brings
+  // Families leaving makes "balance" circular, so search for it.
+  let lo = 0, hi = Math.max(x.c, x.t) * 4;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (project(x, mid)[0].gap < 0) lo = mid; else hi = mid;
+  }
+  return { now: x.t, harmless: x.t + lift, cost: x.c, balance: hi };
+}
+
+function render() {
+  const x = inputs();
+  const tp = val("tp");
+  $("tpOut").textContent = usd(tp);
+
+  const st = x.state;
+  const nb = neighbors(st);
+  $("banner").className = "banner " + (st.opted_in ? "in" : "out");
+  $("banner").innerHTML = st.opted_in
+    ? `<strong>${st.state} has opted in</strong> for ${YEAR}. Families who live there can receive scholarships funded by the federal credit once the state sends the IRS its SGO list (due ${LIST_DEADLINE}).`
+    : `<strong>${st.state} has not opted in yet.</strong> Students who live there can't receive these scholarships unless it does. ` +
+      (nb.length
+        ? `Neighbors that have opted in: <strong>${nb.join(", ")}</strong>. If some of your students live there, enter that share below.`
+        : `None of its neighbors have opted in either.`);
+  $("whatifWrap").hidden = st.opted_in;
+  $("whatifText").textContent = `Show what happens if ${st.state} opts in`;
+  $("r").disabled = x.whatIf;
+
+  const proj = project(x, tp);
+  const next = proj[0];
+  const award = next.award;
+  const other = Math.min(x.o, tp);
+  const recipients = next.n * x.sgoShare;
+  const sgoDollars = recipients * award;
+
+  // One family's bill for 1, 2 or 3 children, before any school-funded aid.
+  const prices = rate => [rate, rate * (1 - x.d2), rate * (1 - x.d3)];
+  const total = (rate, aid) => prices(rate).map(v => Math.max(0, v - aid))
+    .reduce((acc, v, i) => (acc.push((acc[i - 1] || 0) + v), acc), []);
+  const today = total(x.t, 0), plain = total(tp, 0), withSgo = total(tp, award);
+  const showSgo = x.sgoShare > 0;
+  $("fam").innerHTML =
+    `<thead><tr><th></th><th>Today</th><th>No aid</th>${showSgo ? "<th>With SGO</th>" : ""}</tr></thead><tbody>` +
+    ["1 child", "2 children", "3 children"].map((k, i) => `<tr><td>${k}</td><td>${usd(today[i])}</td>` +
+      `<td>${usd(plain[i])}</td>${showSgo ? `<td>${usd(withSgo[i])}</td>` : ""}</tr>`).join("") + "</tbody>";
+  $("famNote").textContent =
+    `After sibling discounts of ${Math.round(x.d2 * 100)}% and ${Math.round(x.d3 * 100)}%. ` +
+    (showSgo ? "Assumes each child gets the average SGO scholarship. " : "") +
+    (x.q > 0 && other > 0 ? `Other outside aid takes up to ${usd(other)} more off per child.` : "");
+
+  const left = x.n - next.n;
+  const resultNow = x.n * x.t * x.disc - x.f + x.s - x.n * x.c;
+  $("bud").innerHTML = rows([
+    ["Students", `${num(next.n)}${left >= 0.5 ? ` <br><small class="up">${num(left)} leave over price</small>` : ""}`],
+    ["Tuition billed, after sibling discounts", usd(next.billed)],
+    ["Less school-funded aid", usd(-next.aid)],
+    ["Plus parish and fundraising", usd(next.support)],
+    ["Less cost to educate", usd(-next.cost)],
+    ["<strong>Surplus or gap</strong>", `<strong>${usd(next.gap)}</strong>`],
+    ["Today", usd(resultNow)],
+  ]);
+
+  const otherDollars = next.n * x.q * other;
+  $("sgo").innerHTML = rows([
+    ["Students with an SGO scholarship", num(recipients)],
+    ["SGO dollars toward tuition", usd(sgoDollars)],
+    ["Equal to donors giving $" + num(CREDIT), num(Math.ceil(sgoDollars / CREDIT))],
+    ["Other outside aid", usd(otherDollars)],
+    ["Share of tuition paid by outside aid", next.billed > 0 ? Math.round((sgoDollars + otherDollars) / next.billed * 100) + "%" : "–"],
+  ]);
+
+  const p = presets(x);
+  $("explain").innerHTML =
+    (x.whatIf ? `<strong>These figures assume ${st.state} opts in.</strong> ` : "") +
+    `Charging the full cost would be ${usd(x.c)}. Raising tuition to ${usd(p.harmless)} keeps ${x.r > 0 ? "SGO scholarship" : "aided"} families at today's price. ` +
+    `Balancing the budget takes ${usd(Math.max(0, p.balance))}. Families without outside aid pay any increase in full, so plan school-funded aid for them. ` +
+    (x.r > 0 ? `SGO money goes to families through the SGO, not straight to the school, and can't be earmarked for your students.` : "");
+
+  $("proj").querySelector("tbody").innerHTML = proj.map(r => `<tr>
+    <td>Year ${r.year}</td><td class="n">${num(r.n)}</td><td class="n">${usd(r.costPer)}</td>
+    <td class="n">${usd(r.tuition)}</td><td class="n">${x.r > 0 ? usd(r.sgoPays) : "–"}</td>
+    <td class="n ${r.gap < 0 ? "gap-neg" : "gap-pos"}">${usd(r.gap)}</td></tr>`).join("");
+  const first = proj[0], last = proj[proj.length - 1];
+  $("projNote").innerHTML =
+    `Cost per student goes from ${usd(first.costPer)} to ${usd(last.costPer)} by year ${last.year}` +
+    (last.n < first.n - 0.5 ? `, partly because fixed costs are spread over ${num(first.n - last.n)} fewer students` : "") + `. ` +
+    `To break even in year ${last.year}, tuition would need to be about ${usd(Math.max(0, last.breakEven))}. ` +
+    (x.el > 0 ? `It counts families who leave as tuition rises. ` : "") +
+    `This is a planning sketch: it holds the average SGO scholarship flat and keeps the school's own aid at the same share of tuition.`;
+}
+
+function syncSlider() {
+  const x = inputs();
+  const top = Math.max(x.c, x.t + x.a, presets(x).balance, x.t) * 1.25;
+  $("tp").max = Math.ceil(top / 500) * 500;
+}
+
+// Picking a state resets the opted-in share to the obvious default.
+$("st").addEventListener("change", () => {
+  const st = STATES.find(s => s.state === $("st").value);
+  $("r").value = st.opted_in ? 100 : 0;
+  $("whatif").checked = false;
+  syncSlider(); render();
+});
+["st","n","c","t","s","f","s2","d2","s3","d3","el","r","e","p","a","aidcut","q","o","ci","g","fx","ti","sg","boost","whatif"]
+  .forEach(id => $(id).addEventListener("input", () => { syncSlider(); render(); }));
+$("tp").addEventListener("input", render);
+document.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => {
+  const v = presets(inputs())[b.dataset.preset];
+  $("tp").value = Math.max(0, Math.round(v / 50) * 50);
+  render();
+}));
+
+$("more").addEventListener("click", () => {
+  const hidden = document.querySelectorAll("[data-extra]");
+  const show = hidden[0] && hidden[0].hidden;
+  hidden.forEach(r => r.hidden = !show);
+  $("more").textContent = show ? "Show top 20" : "Show all 51";
+});
+
+syncSlider();
+$("tp").value = inputs().t + inputs().a;
+render();
+</script>
 </body>
 </html>

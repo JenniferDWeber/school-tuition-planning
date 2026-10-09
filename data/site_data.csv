@@ -1,11 +1,52 @@
-label,value,year
-California,1204,2025
-Florida,982,2025
-Georgia,511,2025
-Arizona,318,2025
-Colorado,265,2025
-Alabama,142,2025
-Connecticut,118,2025
-Arkansas,97,2025
-Delaware,44,2025
-Alaska,31,2025
+state,abbr,status,opted_in,catholic_schools,catholic_students,all_private_students,neighbors,opted_in_neighbors
+California,CA,Not yet,False,661,194812,551208,AZ NV OR,Nevada
+Ohio,OH,Opted in,True,400,119194,198751,IN KY MI PA WV,Indiana; Kentucky; West Virginia
+New York,NY,Not yet,False,413,112601,354556,CT MA NJ PA VT,
+Illinois,IL,Not yet,False,392,101717,185939,IN IA KY MO WI,Indiana; Iowa; Kentucky; Missouri
+Pennsylvania,PA,Not yet,False,374,98021,214124,DE MD NJ NY OH WV,Ohio; West Virginia
+Florida,FL,Opted in,True,243,90547,421860,AL GA,Alabama; Georgia
+Wisconsin,WI,Not yet,False,287,65975,134527,IL IA MI MN,Iowa
+Texas,TX,Opted in,True,257,63150,257706,AR LA NM OK,Arkansas; Louisiana; Oklahoma
+Louisiana,LA,Opted in,True,153,59413,102453,AR MS TX,Arkansas; Mississippi; Texas
+Missouri,MO,Opted in,True,231,55260,95828,AR IL IA KS KY NE OK TN,Arkansas; Iowa; Kansas; Kentucky; Nebraska; Oklahoma; Tennessee
+Indiana,IN,Opted in,True,207,53437,112153,IL KY MI OH,Kentucky; Ohio
+New Jersey,NJ,Not yet,False,198,52967,179845,DE NY PA,
+Maryland,MD,Not yet,False,141,51202,126187,DE PA VA WV DC,Virginia; West Virginia
+Michigan,MI,Not yet,False,215,48065,114137,IN OH WI,Indiana; Ohio
+Massachusetts,MA,Not yet,False,168,41588,102762,CT NH NY RI VT,New Hampshire
+Minnesota,MN,Not yet,False,182,40511,76533,IA ND SD WI,Iowa; North Dakota; South Dakota
+Kentucky,KY,Opted in,True,118,33744,64243,IL IN MO OH TN VA WV,Indiana; Missouri; Ohio; Tennessee; Virginia; West Virginia
+Iowa,IA,Opted in,True,108,30884,48415,IL MN MO NE SD WI,Missouri; Nebraska; South Dakota
+Virginia,VA,Opted in,True,92,30326,118820,KY MD NC TN WV DC,Kentucky; North Carolina; Tennessee; West Virginia
+Nebraska,NE,Opted in,True,109,26578,36820,CO IA KS MO SD WY,Colorado; Iowa; Kansas; Missouri; South Dakota; Wyoming
+Washington,WA,Not yet,False,110,25419,97081,ID OR,Idaho
+Arizona,AZ,Not yet,False,86,24810,66848,CA CO NV NM UT,Colorado; Nevada; Utah
+Kansas,KS,Opted in,True,98,23572,40568,CO MO NE OK,Colorado; Missouri; Nebraska; Oklahoma
+Connecticut,CT,Not yet,False,96,20608,54551,MA NY RI,
+Georgia,GA,Opted in,True,46,17806,151511,AL FL NC SC TN,Alabama; Florida; North Carolina; South Carolina; Tennessee
+North Carolina,NC,Opted in,True,52,17643,127675,GA SC TN VA,Georgia; South Carolina; Tennessee; Virginia
+Colorado,CO,Opted in,True,60,15491,52073,AZ KS NE NM OK UT WY,Kansas; Nebraska; Oklahoma; Utah; Wyoming
+Oregon,OR,Not yet,False,54,14172,43265,CA ID NV WA,Idaho; Nevada
+Tennessee,TN,Opted in,True,39,11446,101885,AL AR GA KY MS MO NC VA,Alabama; Arkansas; Georgia; Kentucky; Mississippi; Missouri; North Carolina; Virginia
+Alabama,AL,Opted in,True,43,10434,63062,FL GA MS TN,Florida; Georgia; Mississippi; Tennessee
+Rhode Island,RI,Not yet,False,40,10149,17016,CT MA,
+North Dakota,ND,Opted in,True,27,8051,11563,MN MT SD,Montana; South Dakota
+South Dakota,SD,Opted in,True,30,7966,13977,IA MN MT NE ND WY,Iowa; Montana; Nebraska; North Dakota; Wyoming
+District of Columbia,DC,Not yet,False,24,7491,20735,MD VA,Virginia
+Hawaii,HI,Not yet,False,28,7397,36469,,
+Nevada,NV,Opted in,True,18,7269,24424,AZ CA ID OR UT,Idaho; Utah
+Mississippi,MS,Opted in,True,30,7230,43338,AL AR LA TN,Alabama; Arkansas; Louisiana; Tennessee
+Oklahoma,OK,Opted in,True,27,7117,34496,AR CO KS MO NM TX,Arkansas; Colorado; Kansas; Missouri; Texas
+Arkansas,AR,Opted in,True,30,6898,23334,LA MS MO OK TN TX,Louisiana; Mississippi; Missouri; Oklahoma; Tennessee; Texas
+South Carolina,SC,Opted in,True,32,6174,59642,GA NC,Georgia; North Carolina
+Delaware,DE,Not yet,False,22,6122,19852,MD NJ PA,
+New Mexico,NM,Not yet,False,30,4984,21941,AZ CO OK TX UT,Colorado; Oklahoma; Texas; Utah
+New Hampshire,NH,Opted in,True,29,4939,20884,ME MA VT,
+Idaho,ID,Opted in,True,23,4751,19056,MT NV OR UT WA WY,Montana; Nevada; Utah; Wyoming
+West Virginia,WV,Opted in,True,27,3872,11741,KY MD OH PA VA,Kentucky; Ohio; Virginia
+Montana,MT,Opted in,True,23,3695,10145,ID ND SD WY,Idaho; North Dakota; South Dakota; Wyoming
+Utah,UT,Opted in,True,15,3456,15769,AZ CO ID NV NM WY,Colorado; Idaho; Nevada; Wyoming
+Maine,ME,Not yet,False,12,2575,17016,NH,New Hampshire
+Vermont,VT,Not yet,False,13,1538,8373,MA NH NY,New Hampshire
+Alaska,AK,Opted in,True,7,1528,4468,,
+Wyoming,WY,Opted in,True,6,409,1681,CO ID MT NE SD UT,Colorado; Idaho; Montana; Nebraska; South Dakota; Utah

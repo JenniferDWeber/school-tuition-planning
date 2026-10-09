@@ -1,11 +1,52 @@
-label,value,year
-Alabama,142,2025
-Alaska,31,2025
-Arizona,318,2025
-Arkansas,97,2025
-California,1204,2025
-Colorado,265,2025
-Connecticut,118,2025
-Delaware,44,2025
-Florida,982,2025
-Georgia,511,2025
+state,abbr,neighbors
+Alabama,AL,FL GA MS TN
+Alaska,AK,
+Arizona,AZ,CA CO NV NM UT
+Arkansas,AR,LA MS MO OK TN TX
+California,CA,AZ NV OR
+Colorado,CO,AZ KS NE NM OK UT WY
+Connecticut,CT,MA NY RI
+Delaware,DE,MD NJ PA
+District of Columbia,DC,MD VA
+Florida,FL,AL GA
+Georgia,GA,AL FL NC SC TN
+Hawaii,HI,
+Idaho,ID,MT NV OR UT WA WY
+Illinois,IL,IN IA KY MO WI
+Indiana,IN,IL KY MI OH
+Iowa,IA,IL MN MO NE SD WI
+Kansas,KS,CO MO NE OK
+Kentucky,KY,IL IN MO OH TN VA WV
+Louisiana,LA,AR MS TX
+Maine,ME,NH
+Maryland,MD,DE PA VA WV DC
+Massachusetts,MA,CT NH NY RI VT
+Michigan,MI,IN OH WI
+Minnesota,MN,IA ND SD WI
+Mississippi,MS,AL AR LA TN
+Missouri,MO,AR IL IA KS KY NE OK TN
+Montana,MT,ID ND SD WY
+Nebraska,NE,CO IA KS MO SD WY
+Nevada,NV,AZ CA ID OR UT
+New Hampshire,NH,ME MA VT
+New Jersey,NJ,DE NY PA
+New Mexico,NM,AZ CO OK TX UT
+New York,NY,CT MA NJ PA VT
+North Carolina,NC,GA SC TN VA
+North Dakota,ND,MN MT SD
+Ohio,OH,IN KY MI PA WV
+Oklahoma,OK,AR CO KS MO NM TX
+Oregon,OR,CA ID NV WA
+Pennsylvania,PA,DE MD NJ NY OH WV
+Rhode Island,RI,CT MA
+South Carolina,SC,GA NC
+South Dakota,SD,IA MN MT NE ND WY
+Tennessee,TN,AL AR GA KY MS MO NC VA
+Texas,TX,AR LA NM OK
+Utah,UT,AZ CO ID NV NM WY
+Vermont,VT,MA NH NY
+Virginia,VA,KY MD NC TN WV DC
+Washington,WA,ID OR
+West Virginia,WV,KY MD OH PA VA
+Wisconsin,WI,IL IA MI MN
+Wyoming,WY,CO ID MT NE SD UT

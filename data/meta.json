@@ -1,7 +1,18 @@
 {
-  "rows": 10,
+  "rows": 51,
   "updated": "October 09, 2026",
-  "updated_iso": "2026-10-09T11:54:52+00:00",
-  "source_name": "Name of the dataset",
-  "source_url": "https://example.org/the-dataset"
+  "updated_iso": "2026-10-09T12:07:38+00:00",
+  "source_name": "IRS, Federal Scholarship Tax Credit participating states",
+  "source_url": "https://www.irs.gov/charities-non-profits/federal-scholarship-tax-credit-fstc",
+  "irs_year": 2027,
+  "irs_as_of": "September 14, 2026",
+  "states_opted_in": 30,
+  "previous_states_opted_in": 30,
+  "catholic_students_total": 1665004,
+  "catholic_students_opted_in": 732280,
+  "catholic_share_opted_in": 44,
+  "catholic_schools_total": 6126,
+  "states_not_in": 21,
+  "catholic_students_not_in": 932724,
+  "not_in_with_opted_neighbor": 15
 }
